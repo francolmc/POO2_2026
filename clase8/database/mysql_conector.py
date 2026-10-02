@@ -1,4 +1,4 @@
-from conector import Conector
+from .conector import Conector
 import mysql
 
 class MySQLConector(Conector):
@@ -12,8 +12,8 @@ class MySQLConector(Conector):
         self.base_datos = base_datos
 
     def obtener_conexion(self):
-        import mysq.connector
-        return mysq.connector.connect(
+        import mysql.connector
+        return mysql.connector.connect(
             host = self.host,
             user = self.usuario,
             password = self.clave,

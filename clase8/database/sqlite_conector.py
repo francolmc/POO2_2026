@@ -1,4 +1,4 @@
-from conector import Conector
+from .conector import Conector
 import sqlite3
 
 class SqliteConector(Conector):

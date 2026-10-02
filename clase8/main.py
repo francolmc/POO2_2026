@@ -1,18 +1,19 @@
 from models.libro import Libro
 from repositories.libro_repository import LibroRepositorio
 from database.connection import obtener_conexion, crear_tablas
+from database.mysql_conector import MySQLConector
+from database.sqlite_conector import SqliteConector
 
-# rayuela = Libro("978-0-2", "Rayuela", 2)
+conexion_sqlite = SqliteConector(ruta_db='biblioteca.db')
+conexion_mysql = MySQLConector(
+    host='localhost',
+    usuario = 'root',
+    clave = 'masterdba',
+    base_datos = 'ejemplo_biblioteca'
+)
 
-crear_tablas()
+crear_tablas(conexion_mysql)
 
-conexion = obtener_conexion()
-
-respositorio_libro = LibroRepositorio(conexion)
-# respositorio_libro.crear(rayuela)
-rayuela = respositorio_libro.buscar_por_isbn("978-0-2")
-print(rayuela.titulo, rayuela.copias_disponibles)
-# rayuela.copias_disponibles = 5
-# respositorio_libro.actualizar_libro(rayuela)
-
-# respositorio_libro.eliminar("978-0-2")
+rayuela = Libro(id=1, isbn='123', titulo='Rayuela', copias_disponibles=5)
+repositorio_libro = LibroRepositorio(conexion_mysql, conexion_mysql.marcador_parametro)
+repositorio_libro.crear(rayuela)

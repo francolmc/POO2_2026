@@ -1,14 +1,16 @@
 from models.libro import Libro
+from database.conector import Conector
 
 class LibroRepositorio:
-    def __init__(self, conexion):
+    def __init__(self, conexion: Conector, marcador_parametro):
         self.__conexion = conexion
+        self.__marcador_parametro = marcador_parametro
 
     def crear(self, libro:Libro):
-        cursor = self.__conexion.cursor()
-        cursor.execute("""
-        INSERT INTO libros VALUES (?, ?, ?)
-        """, (libro.isbn, libro.titulo, libro.copias_disponibles,))
+        cursor = self.__conexion.obtener_conexion().cursor()
+        cursor.execute(f"""
+        INSERT INTO libros VALUES ({self.__marcador_parametro}, {self.__marcador_parametro}, {self.__marcador_parametro}, {self.__marcador_parametro})
+        """, (libro.id, libro.isbn, libro.titulo, libro.copias_disponibles,))
         self.__conexion.commit()
 
     def buscar_por_isbn(self, isbn:str):
