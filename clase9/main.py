@@ -1,19 +1,45 @@
-from models.libro import Libro
-from repositories.libro_repository import LibroRepositorio
-from database.connection import obtener_conexion, crear_tablas
-from database.mysql_conector import MySQLConector
 from database.sqlite_conector import SqliteConector
+from database.connection import crear_tablas
+from models.socio import Socio
+from services.socios_service import SocioService
 
-conexion_sqlite = SqliteConector(ruta_db='biblioteca.db')
-conexion_mysql = MySQLConector(
-    host='localhost',
-    usuario = 'root',
-    clave = 'masterdba',
-    base_datos = 'ejemplo_biblioteca'
-)
+conector = SqliteConector() # No le entregamos nada, asumimos el valor pode defecto
+conexion = conector.obtener_conexion()
 
-crear_tablas(conexion_mysql)
+crear_tablas(conector)
 
-rayuela = Libro(id=1, isbn='123', titulo='Rayuela', copias_disponibles=5)
-repositorio_libro = LibroRepositorio(conexion_mysql, conexion_mysql.marcador_parametro)
-repositorio_libro.crear(rayuela)
+servicio_socio = SocioService(conexion)
+
+while True:
+    print("Menu:")
+    print("1- Mostrar los socios")
+    print("2- Crear un socio")
+    print("3- Editar un socio")
+    print("4- Eliminar un socio")
+    print("5- Buscar un socio")
+    print("6- Salir de la aplicacion")
+
+    opcion = int(input("Ingresar la opcion: "))
+
+    if opcion == 1:
+        print("Opcion para mostrar todos los socios")
+    elif opcion == 2:
+        print("Registro de un socio")
+        numero_socio = int(input("Ingrese el numero de socio: "))
+        nombre = input("Ingrese el nombre del socio: ")
+        socio = Socio(numero_socio, nombre)
+        servicio_socio.CrearSocio(socio)
+    elif opcion == 3:
+        print("Modifcar socio")
+        numero_socio = int(input("Ingrese el numero de socio: "))
+        nombre = input("Ingrese el nombre del socio: ")
+        socio = Socio(numero_socio, nombre)
+        servicio_socio.EditarSocio(socio)
+    elif opcion == 4:
+        print("Opcion para eliminar un socio")
+    elif opcion == 5:
+        print("Opcion para buscar un socio")
+    elif opcion == 6:
+        break
+    else:
+        print("Ingrese una opcion correcta.")
