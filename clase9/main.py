@@ -22,7 +22,13 @@ while True:
     opcion = int(input("Ingresar la opcion: "))
 
     if opcion == 1:
-        print("Opcion para mostrar todos los socios")
+        print("Lista de socios")
+        socios = servicio_socio.MostrarTodos()
+        if len(socios) == 0:
+            print("No hay socios registrados.")
+        else:
+            for socio in socios:
+                print(f"Nro.: {socio.numero_socio} \t Nombre: {socio.nombre}")
     elif opcion == 2:
         print("Registro de un socio")
         numero_socio = int(input("Ingrese el numero de socio: "))
@@ -38,7 +44,14 @@ while True:
     elif opcion == 4:
         print("Opcion para eliminar un socio")
     elif opcion == 5:
-        print("Opcion para buscar un socio")
+        print("Busqueda de socios por nombre")
+        nombre = input("Ingrese el nombre del socio: ")
+        socios = servicio_socio.buscar_por_nombre(nombre)
+        if len(socios) == 0:
+            print("No hay socios registrados.")
+        else:
+            for socio in socios:
+                print(f"Nro.: {socio.numero_socio} \t Nombre: {socio.nombre}")
     elif opcion == 6:
         break
     else:

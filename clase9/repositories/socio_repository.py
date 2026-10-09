@@ -37,3 +37,32 @@ class SocioRepository:
         cursor.execute("DELETE FROM socios WHERE numero_socio = ?", (numero_socio,))
         self.__conexion.commit()
         return cursor.rowcount > 0
+
+    def todos(self):
+        cursor = self.__conexion.cursor()
+        cursor.execute(
+            "SELECT numero_socio, nombre FROM socios"
+        )
+        todos = cursor.fetchall()
+        socios = []
+        if len(todos) > 0:
+            for item in todos:
+                socios.append(
+                    Socio(item[0], item[1])
+                )
+        return socios
+
+    def buscar_por_nombre(self, nombre: str):
+        cursor = self.__conexion.cursor()
+        cursor.execute(
+            "SELECT numero_socio, nombre FROM socios WHERE nombre LIKE ?",
+            (f"%{nombre}%",)
+        )
+        todos = cursor.fetchall()
+        socios = []
+        if len(todos) > 0:
+            for item in todos:
+                socios.append(
+                    Socio(item[0], item[1])
+                )
+        return socios

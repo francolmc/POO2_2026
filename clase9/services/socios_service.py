@@ -29,3 +29,17 @@ class SocioService:
                 print("Error: el socio a editar no existe.")
         except:
             print("Los datos no son correctos.")
+
+    def MostrarTodos(self):
+        try:
+            socios = self.__respositorio.todos()
+            return socios
+        except:
+            print("Hay problemas con la base de datos")
+
+    def buscar_por_nombre(self, nombre: str):
+        try:
+            socios = self.__respositorio.buscar_por_nombre(nombre)
+            return socios
+        except:
+            print("Hay problemas con la base de datos")
